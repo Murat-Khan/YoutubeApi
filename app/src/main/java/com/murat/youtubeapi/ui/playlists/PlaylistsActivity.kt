@@ -13,7 +13,8 @@ import com.murat.youtubeapi.databinding.ActivityPlaylistsBinding
 import com.murat.youtubeapi.model.Item
 import com.murat.youtubeapi.ui.detailplaylist.DetailPlaylistActivity
 
-class PlaylistsActivity : BaseActivity<ActivityPlaylistsBinding, PlaylistsViewModel>(), PlaylistAdapter.OnItemClick {
+class PlaylistsActivity : BaseActivity<ActivityPlaylistsBinding, PlaylistsViewModel>(),
+    PlaylistAdapter.OnItemClick {
 
     private var playlistAdapter = PlaylistAdapter()
     private var loading = true
@@ -38,11 +39,10 @@ class PlaylistsActivity : BaseActivity<ActivityPlaylistsBinding, PlaylistsViewMo
         loading = true
         viewModel.playlist(pageToken).observe(this) {
 
-            if (it.items.firstOrNull()?.snippet != null) {
-                pageToken = it.nextPageToken
-                totalCount = it.pageInfo.totalResults
-                playlistAdapter.setPlayList(it.items)
-            }
+            pageToken = it.nextPageToken
+            totalCount = it.pageInfo.totalResults
+            playlistAdapter.setPlayList(it.items)
+
             loading = false
 
         }
@@ -81,6 +81,7 @@ class PlaylistsActivity : BaseActivity<ActivityPlaylistsBinding, PlaylistsViewMo
             startActivity(this)
         }
     }
+
     companion object {
         const val ID = "id"
     }

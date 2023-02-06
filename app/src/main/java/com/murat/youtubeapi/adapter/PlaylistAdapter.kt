@@ -44,7 +44,7 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(playlists: Item, position: Int) {
             if (playlists.snippet.thumbnails.maxres?.url != null)
-                Glide.with(binding.imgPlaylist).load(playlists.snippet.thumbnails.maxres.url)
+                Glide.with(binding.imgPlaylist).load(playlists.snippet.thumbnails.default.url)
                     .into(binding.imgPlaylist)
             binding.playlistVideoCount.text = itemView.context.getString(
                 R.string.video_series,
