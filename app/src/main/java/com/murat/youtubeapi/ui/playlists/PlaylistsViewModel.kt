@@ -20,16 +20,22 @@ class PlaylistsViewModel : BaseViewModel() {
     }
 
 
-    fun playlist(pageToken : String?): LiveData<Playlists> {
+    fun playlist(pageToken: String?): LiveData<Playlists> {
         return getPlaylist(pageToken)
     }
 
-    private fun getPlaylist(pageToken : String?): LiveData<Playlists> {
+    private fun getPlaylist(pageToken: String?): LiveData<Playlists> {
 
         val data = MutableLiveData<Playlists>()
         setLoader(true)
 
-        apiService.getPlaylists(BuildConfig.API_KEY, Constant.part,Constant.channelId,Constant.maxResults, pageToken)
+        apiService.getPlaylists(
+            BuildConfig.API_KEY,
+            Constant.PART,
+            Constant.channelId,
+            Constant.maxResults,
+            pageToken
+        )
             .enqueue(object : Callback<Playlists> {
                 override fun onResponse(call: Call<Playlists>, response: Response<Playlists>) {
                     if (response.isSuccessful) {
