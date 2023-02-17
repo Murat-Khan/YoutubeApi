@@ -1,12 +1,12 @@
-package com.murat.youtubeapi.adapter
+package com.murat.youtubeapi.ui.playlists
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.murat.youtubeapi.R
+import com.murat.youtubeapi.data.remote.model.Item
 import com.murat.youtubeapi.databinding.ItemPlaylistBinding
-import com.murat.youtubeapi.model.Item
 
 
 class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
@@ -33,7 +33,7 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
     }
 
     override fun onBindViewHolder(holder: PlaylistHolder, position: Int) {
-        holder.onBind(playlists[position], position)
+        holder.onBind(playlists[position])
     }
 
     override fun getItemCount(): Int {
@@ -42,9 +42,9 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
 
     inner class PlaylistHolder(private val binding: ItemPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(playlists: Item, position: Int) {
+        fun onBind(playlists: Item) {
             if (playlists.snippet.thumbnails.maxres?.url != null)
-                Glide.with(binding.imgPlaylist).load(playlists.snippet.thumbnails.default.url)
+                Glide.with(binding.imgPlaylist).load(playlists.snippet.thumbnails.medium.url)
                     .into(binding.imgPlaylist)
             binding.playlistVideoCount.text = itemView.context.getString(
                 R.string.video_series,
@@ -52,13 +52,13 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
             )
             binding.playlistName.text = playlists.snippet.title
             itemView.setOnClickListener {
-                listener.onClicked(playlists, position)
+                listener.onItemClick(playlists)
             }
 
         }
     }
 
     interface OnItemClick {
-        fun onClicked(list: Item, position: Int)
+        fun onItemClick(list: Item)
     }
 }

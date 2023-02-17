@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.playlists.PlaylistsActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_playlist"
         android:layout_width="0dp"
@@ -14,11 +13,21 @@
         android:clipToPadding="false"
         android:paddingBottom="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/loader"
+        app:layout_constraintBottom_toTopOf="@id/loader_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_playlist" />
+
+    <ProgressBar
+        android:id="@+id/loader_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/loader"
@@ -26,7 +35,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminateTint="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <include
+        android:id="@+id/check_internet"
+        layout="@layout/internet_check"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

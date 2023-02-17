@@ -1,4 +1,4 @@
-package com.murat.youtubeapi.model
+package com.murat.youtubeapi.data.remote.model
 
 data class Playlists(
     val etag: String,

@@ -1,16 +1,16 @@
-package com.murat.youtubeapi.base
+package com.murat.youtubeapi.core.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 open class BaseViewModel : ViewModel() {
 
-    val loaderData: MutableLiveData<Boolean> by lazy {
+    val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
     fun setLoader(value: Boolean) {
-        loaderData.value = value
+        loading.value = value
     }
 
 }

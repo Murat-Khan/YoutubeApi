@@ -1,16 +1,16 @@
-package com.murat.youtubeapi.ui.playlists
+package com.murat.youtubeapi.ui.detailplaylist
 
 import androidx.lifecycle.LiveData
 import com.murat.youtubeapi.MyApp
 import com.murat.youtubeapi.core.network.result.Resource
+
 import com.murat.youtubeapi.core.ui.BaseViewModel
 import com.murat.youtubeapi.data.remote.model.Playlists
 
+class DetailViewModel:BaseViewModel() {
 
-class PlaylistsViewModel : BaseViewModel() {
-
-    fun getPlaylists(pageToken: String?): LiveData<Resource<Playlists>> {
-        return MyApp().repository.getPlaylists(pageToken)
+    fun  getPlaylistDetails(id: String): LiveData<Resource<Playlists>> {
+        return MyApp().repository.getPlaylistDetails(id)
     }
 
 }

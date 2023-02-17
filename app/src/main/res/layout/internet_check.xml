@@ -14,7 +14,6 @@
         android:src="@drawable/ic_not_conection" />
 
     <TextView
-        android:id="@+id/btn_try_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
@@ -25,6 +24,7 @@
         android:textStyle="normal" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_try_again"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="120dp"

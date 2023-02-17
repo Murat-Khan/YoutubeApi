@@ -1,5 +1,6 @@
-package com.murat.youtubeapi.base
+package com.murat.youtubeapi.core.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +9,6 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseActivity  <VB: ViewBinding, VM: BaseViewModel>: AppCompatActivity(){
 
     protected lateinit var binding: VB
-
     protected abstract fun inflateViewBinding(inflater: LayoutInflater) :VB
     protected lateinit var viewModel: VM
 
@@ -19,15 +19,15 @@ abstract class BaseActivity  <VB: ViewBinding, VM: BaseViewModel>: AppCompatActi
         binding= inflateViewBinding(layoutInflater)
         setContentView(binding.root)
 
-        isConnection()
-        initViews()
         initViewModel()
+        setupConnection()
+        initViews()
         initListener()
     }
 
     open fun initViews(){}
     open fun initListener(){}
     open fun initViewModel(){}
-    open fun isConnection(){}
+    open fun setupConnection(){}
 
 }
