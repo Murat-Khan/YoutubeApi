@@ -10,6 +10,12 @@ import com.murat.youtubeapi.databinding.ItemDeteilBinding
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailHolder>() {
 
     private var videos = arrayListOf<Item>()
+    private lateinit var listener: DetailAdapter.OnItemClick
+
+
+    fun setListener(onItemClick: DetailAdapter.OnItemClick) {
+        listener = onItemClick
+    }
 
     fun setPlayList(list: List<Item>) {
         videos.addAll(list)
@@ -21,7 +27,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailHolder>() {
     }
 
     override fun onBindViewHolder(holder: DetailHolder, position: Int) {
-        holder.onBind(videos[position])
+        holder.onBind(videos[position],position)
     }
 
     override fun getItemCount(): Int {
@@ -29,12 +35,19 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailHolder>() {
     }
 
     inner class DetailHolder(private val binding: ItemDeteilBinding): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(video: Item) {
-           binding.videoDuration.text = video.snippet.publishedAt
+        fun onBind(video: Item, position: Int) {
+            binding.videoDuration.text = video.snippet.publishedAt
             binding.title.text = video.snippet.title
             Glide.with(binding.imgVideo).load(video.snippet.thumbnails.medium.url)
                 .into(binding.imgVideo)
+            itemView.setOnClickListener {
+                listener.onItemClick(video, position)
+            }
         }
 
+    }
+
+    interface OnItemClick {
+        fun onItemClick(video: Item, position: Int)
     }
 }

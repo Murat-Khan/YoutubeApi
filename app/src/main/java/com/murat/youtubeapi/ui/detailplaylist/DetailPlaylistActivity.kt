@@ -1,22 +1,19 @@
 package com.murat.youtubeapi.ui.detailplaylist
 
-
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.murat.youtubeapi.R
+import com.murat.youtubeapi.core.network.NetworkInfo
 import com.murat.youtubeapi.core.network.result.Status
 import com.murat.youtubeapi.core.ui.BaseActivity
+import com.murat.youtubeapi.data.remote.model.Item
 import com.murat.youtubeapi.databinding.ActivityDetailPlaylistBinding
 import com.murat.youtubeapi.ui.playlists.PlaylistsActivity.Companion.ID
+import com.murat.youtubeapi.ui.videoplayer.VideoPlayerActivity
 
 
-class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, DetailViewModel>() {
+class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, DetailViewModel>(),DetailAdapter.OnItemClick {
 
     private var detailAdapter = DetailAdapter()
     private val id: String?
@@ -25,6 +22,8 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
 
     override fun initListener() {
         super.initListener()
+
+        detailAdapter.setListener(this)
         binding.back.setOnClickListener {
             onBackPressed()
         }
@@ -40,7 +39,6 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
     override fun initViews() {
         super.initViews()
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-
         loadDetailPlaylist()
     }
 
@@ -54,9 +52,8 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
                     video.data?.items?.forEach {
                         binding.title.text = it.snippet.title
                         binding.description.text = it.snippet.description
-                        binding.videoCount.text = String.format(
-                            it.contentDetails.itemCount.toString(),
-                            R.string.video_series)
+                        binding.videoCount.text = it.contentDetails.itemCount.toString()
+
                         binding.loader.isVisible = false
                     }
                 }
@@ -77,28 +74,19 @@ class DetailPlaylistActivity : BaseActivity<ActivityDetailPlaylistBinding, Detai
 
     override fun setupConnection() {
         super.setupConnection()
-        isNetworkAvailable(this)
+        binding.checkInternet.root.isVisible = !NetworkInfo.isNetworkAvailable(this)
     }
 
-    private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
+    override fun onItemClick(video: Item,position: Int) {
+        Intent(this@DetailPlaylistActivity, VideoPlayerActivity::class.java).apply {
+            putExtra(VIDEOURL, video.contentDetails.videoId)
+
+            startActivity(this)
         }
-        return true.also { binding.checkInternet.root.isVisible = it }
+    }
+    companion object{
+        const val VIDEOURL = "video_url"
+
     }
 
 }

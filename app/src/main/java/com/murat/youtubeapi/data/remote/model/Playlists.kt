@@ -1,5 +1,6 @@
 package com.murat.youtubeapi.data.remote.model
 
+
 data class Playlists(
     val etag: String,
     val items: List<Item>,
@@ -9,45 +10,47 @@ data class Playlists(
 )
 
 data class ContentDetails(
-    val itemCount: Int
-)
+    val itemCount: Int,
+    val videoId : String
+) : java.io.Serializable
 
 data class Default(
     val height: Int,
     val url: String,
     val width: Int
-)
+) : java.io.Serializable
 
 data class High(
     val height: Int,
     val url: String,
     val width: Int
-)
+) : java.io.Serializable
 
 data class Item(
     val contentDetails: ContentDetails,
     val etag: String,
     val id: String,
     val kind: String,
-    val snippet: Snippet
-)
+    val snippet: Snippet,
+
+) : java.io.Serializable
 
 data class Localized(
     val description: String,
     val title: String
-)
+) : java.io.Serializable
 
 data class Maxres(
     val height: Int,
     val url: String?,
     val width: Int
-)
+) : java.io.Serializable
 
 data class Medium(
     val height: Int,
     val url: String,
     val width: Int
-)
+) : java.io.Serializable
 
 data class PageInfo(
     val resultsPerPage: Int,
@@ -62,13 +65,13 @@ data class Snippet(
     val publishedAt: String,
     val thumbnails: Thumbnails,
     val title: String
-)
+) : java.io.Serializable
 
 data class Standard(
     val height: Int,
     val url: String,
     val width: Int
-)
+) : java.io.Serializable
 
 data class Thumbnails(
     val default: Default,
@@ -76,4 +79,10 @@ data class Thumbnails(
     val maxres: Maxres?,
     val medium: Medium,
     val standard: Standard
+) : java.io.Serializable
+
+data class Video(
+    val etag: String,
+    val items: List<Item>,
+    val kind: String,
 )
